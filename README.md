@@ -50,3 +50,23 @@ This design reduces duplication and keeps the schema easy to query efficiently f
 
 ERD diagram of the database design (from docs/erd.png):
 ![ERD Diagram](docs/erd.png)
+
+## Setup
+
+1. Clone the repository
+2. Create and activate a virtual environment
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+4. Create a PostgreSQL database named `sports_calendar`
+5. Create a `.env` file based on `.env.example` and set your database credentials
+6. Run database migrations:
+```bash
+flask db upgrade
+```
+7. Start the application:
+```bash
+flask run
+```
