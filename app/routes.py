@@ -172,7 +172,11 @@ def list_events():
             )
         )
 
-    events = query.order_by(Event.event_date.asc(), Event.event_time_utc.asc()).all()
+    events = (
+        query.distinct()
+        .order_by(Event.event_date.asc(), Event.event_time_utc.asc())
+        .all()
+    )
 
     sports = Sport.query.order_by(Sport.name.asc()).all()
     available_statuses = ["scheduled", "played", "cancelled", "postponed"]
