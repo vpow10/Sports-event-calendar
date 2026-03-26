@@ -25,6 +25,9 @@ It is being built as part of the Sportradar Coding Academy backend coding exerci
 - Efficient event retrieval using SQLAlchemy eager loading
 - Navigation bar with placeholder links
 - Basic styling for readability
+- Create new events using a web form
+- Validate required fields and prevent duplicate home/away team selection
+- Save new events to PostgreSQL and redirect to the event detail page
 
 ### Query Efficiency
 
@@ -97,3 +100,15 @@ The imported dataset includes:
 python seed.py
 ```
 Assumption: the provided sample data does not explicitly include a sport field, so imported sample records are assigned to the `Football` sport category based on the competition context.
+
+### Create a new event
+
+Open `/events/new` in the browser and submit the form to create a new database record.
+
+### Event Creation
+
+The event creation form accepts free-text input for related entities such as sport, competition, teams, stage, and venue.
+
+When a submitted value already exists, the application reuses the existing database row. When it does not exist, the application creates the related record automatically and then stores the new event using foreign-key references.
+
+This keeps the database normalized while making the form more flexible and practical to use.

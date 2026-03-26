@@ -17,7 +17,7 @@
     <div class="event-detail-card">
         <p><strong>Status:</strong> {{ event.status }}</p>
         <p><strong>Date:</strong> {{ event.event_date.strftime("%Y-%m-%d") }}</p>
-        <p><strong>Time (UTC):</strong> {{ event.event_time_utc.strftime("%H:%M:%S") }}</p>
+        <p><strong>Time (UTC):</strong> {{ event.event_time_utc.strftime("%H:%M") }}</p>
         <p><strong>Sport:</strong> {{ event.sport.name if event.sport else "N/A" }}</p>
         <p><strong>Competition:</strong> {{ event.competition.name if event.competition else "N/A" }}</p>
         <p><strong>Stage:</strong> {{ event.stage.name if event.stage else "N/A" }}</p>

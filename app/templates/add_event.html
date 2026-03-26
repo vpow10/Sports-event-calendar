@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+    <h1>Add New Event</h1>
+    <p>Create a new sports event and save it to the database.</p>
+
+    <div class="form-card">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div class="form-grid">
+                <div class="form-group">
+                    {{ form.season.label }}
+                    {{ form.season(class="form-control") }}
+                    {% for error in form.season.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.status.label }}
+                    {{ form.status(class="form-control") }}
+                    {% for error in form.status.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.event_date.label }}
+                    {{ form.event_date(class="form-control") }}
+                    {% for error in form.event_date.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.event_time_utc.label }}
+                    {{ form.event_time_utc(class="form-control") }}
+                    {% for error in form.event_time_utc.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.sport_name.label }}
+                    {{ form.sport_name(class="form-control", placeholder="e.g. Football") }}
+                    {% for error in form.sport_name.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.competition_name.label }}
+                    {{ form.competition_name(class="form-control", placeholder="e.g. Premier League") }}
+                    {% for error in form.competition_name.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.stage_name.label }}
+                    {{ form.stage_name(class="form-control", placeholder="e.g. Round 1") }}
+                    {% for error in form.stage_name.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.venue_name.label }}
+                    {{ form.venue_name(class="form-control", placeholder="e.g. National Stadium") }}
+                    {% for error in form.venue_name.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.home_team_name.label }}
+                    {{ form.home_team_name(class="form-control", placeholder="e.g. Arsenal") }}
+                    {% for error in form.home_team_name.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.away_team_name.label }}
+                    {{ form.away_team_name(class="form-control", placeholder="e.g. Chelsea") }}
+                    {% for error in form.away_team_name.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.home_goals.label }}
+                    {{ form.home_goals(class="form-control") }}
+                    {% for error in form.home_goals.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.away_goals.label }}
+                    {{ form.away_goals(class="form-control") }}
+                    {% for error in form.away_goals.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.winner.label }}
+                    {{ form.winner(class="form-control", placeholder="Optional winner name") }}
+                    {% for error in form.winner.errors %}
+                        <p class="form-error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {{ form.description.label }}
+                {{ form.description(class="form-control", rows="4", placeholder="Optional event description") }}
+                {% for error in form.description.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="form-actions">
+                {{ form.submit(class="button-link submit-button") }}
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
