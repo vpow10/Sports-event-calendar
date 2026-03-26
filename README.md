@@ -3,13 +3,31 @@
 ## Overview
 This project is a Flask + PostgreSQL web application for managing and displaying sports events.
 
-It is being built as part of the Sportradar Coding Academy backend coding exercise. The application will support:
+It is being built as part of the Sportradar Coding Academy backend coding exercise. The application supports:
 - database modeling for sports events
 - event storage in a relational database
 - backend functionality to add and retrieve events
 - frontend pages to display event data
 
-## Planned Tech Stack
+## Project Structure
+```
+sports-event-calendar/
+├── app/
+│   ├── __init__.py
+│   ├── models.py
+│   ├── routes.py
+│   ├── forms.py
+│   ├── templates/
+│   └── static/
+├── migrations/
+├── data/
+├── docs/
+├── tests/
+├── seed.py
+├── config.py
+└── run.py
+```
+## Tech Stack
 - Python
 - Flask
 - PostgreSQL
@@ -32,6 +50,7 @@ It is being built as part of the Sportradar Coding Academy backend coding exerci
 - Filter events by status
 - Search events by team name or competition
 
+
 ### Query Efficiency
 
 The event list and event detail views use eager loading for related entities such as teams, competition, stage, venue, and sport. This avoids repeated database queries when rendering templates.
@@ -40,8 +59,10 @@ The event list and event detail views use eager loading for related entities suc
 
 The event list supports query-parameter-based filtering. Filters are applied at the database query level rather than in Python after loading all records, which keeps retrieval efficient.
 
-## Notes
-The database design will follow a normalized relational structure and will include additional useful entities such as venues and teams/participants.
+## Assumptions
+
+- The provided sample data does not include a direct sport field, so all imported events are assigned to the "Football" sport category.
+- Some fields in the dataset (e.g., stadium, result, teams) can be null, so the schema allows nullable relationships where appropriate.
 
 ## Database Design
 
@@ -67,6 +88,14 @@ This design reduces duplication and keeps the schema easy to query efficiently f
 ERD diagram of the database design (from docs/erd.png):
 ![ERD Diagram](docs/erd.png)
 
+## Design Decisions
+
+- The database schema is normalized to reduce duplication and improve data consistency.
+- Related entities (sports, competitions, teams, venues, stages) are stored in separate tables and linked via foreign keys.
+- The event creation form accepts free-text input and automatically creates related entities if they do not exist. This improves usability while preserving normalization.
+- SQLAlchemy eager loading (`joinedload`) is used to avoid N+1 query problems when rendering event lists and detail views.
+- Filtering is implemented at the database query level to ensure scalability and efficiency.
+
 ## Setup
 
 1. Clone the repository
@@ -79,10 +108,12 @@ pip install -r requirements.txt
 4. Create a PostgreSQL database named `sports_calendar`
 5. Create a `.env` file based on `.env.example` and set your database credentials
 6. Run database migrations:
+
 ```bash
 flask db upgrade
 ```
 7. Start the application:
+
 ```bash
 flask run
 ```
@@ -108,6 +139,8 @@ python seed.py
 ```
 Assumption: the provided sample data does not explicitly include a sport field, so imported sample records are assigned to the `Football` sport category based on the competition context.
 
+## Usage
+
 ### Create a new event
 
 Open `/events/new` in the browser and submit the form to create a new database record.
@@ -118,4 +151,10 @@ The event creation form accepts free-text input for related entities such as spo
 
 When a submitted value already exists, the application reuses the existing database row. When it does not exist, the application creates the related record automatically and then stores the new event using foreign-key references.
 
-This keeps the database normalized while making the form more flexible and practical to use.
+## Future Improvements
+
+- Add pagination for large datasets
+- Add editing and deletion of events
+- Improve validation (e.g., derive winner automatically from score)
+- Add API endpoints for programmatic access
+- Improve filtering with date ranges and advanced search
