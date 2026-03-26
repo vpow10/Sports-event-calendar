@@ -21,9 +21,6 @@ It is being built as part of the Sportradar Coding Academy backend coding exerci
 ## Project Status
 Initial project setup in progress.
 
-## Setup
-Instructions will be added as the project is built.
-
 ## Notes
 The database design will follow a normalized relational structure and will include additional useful entities such as venues and teams/participants.
 
@@ -70,3 +67,24 @@ flask db upgrade
 ```bash
 flask run
 ```
+
+## Sample Data
+
+The project includes a seed script that imports sample sports event data from a JSON file into PostgreSQL.
+
+The imported dataset includes:
+- season
+- status
+- event date and UTC time
+- competition
+- stage
+- home and away team data
+- optional stadium information
+- optional result data
+
+### Run the seed script
+
+```bash
+python seed.py
+```
+Assumption: the provided sample data does not explicitly include a sport field, so imported sample records are assigned to the `Football` sport category based on the competition context.
