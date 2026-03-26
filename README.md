@@ -18,8 +18,17 @@ It is being built as part of the Sportradar Coding Academy backend coding exerci
 - Jinja2 templates
 - pytest
 
-## Project Status
-Initial project setup in progress.
+## Current Features
+
+- Display all sports events from the database
+- View a single event in detail
+- Efficient event retrieval using SQLAlchemy eager loading
+- Navigation bar with placeholder links
+- Basic styling for readability
+
+### Query Efficiency
+
+The event list and event detail views use eager loading for related entities such as teams, competition, stage, venue, and sport. This avoids repeated database queries when rendering templates.
 
 ## Notes
 The database design will follow a normalized relational structure and will include additional useful entities such as venues and teams/participants.
