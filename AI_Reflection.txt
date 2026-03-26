@@ -1,0 +1,18 @@
+I used AI as a development assistant throughout the project, mainly to accelerate implementation and validate design decisions, rather than to generate a complete solution without understanding.
+
+AI was particularly helpful for:
+- Structuring the Flask project and organizing files cleanly
+- Implementing SQLAlchemy models and relationships
+- Providing guidance for form handling, filtering, and test structure
+
+All code generated with AI was reviewed, tested, and adapted to fit the requirements of the assignment. For example:
+- I adjusted the event creation flow to accept free-text input and dynamically create related entities, improving usability beyond the initial suggestion
+- I refined database queries to ensure efficient filtering and correct joins
+- I debugged issues such as time input formatting and CSS conflicts manually
+- I made decisions about which parts of the system to normalize and how to handle nullable data based on the sample dataset
+
+AI was not used blindly. I ensured I understood each part of the implementation and could explain how and why it works. Every line has also been written by me
+rather than copied.
+
+Overall, AI acted as a support tool to speed up development, while all architectural decisions, debugging, and final integration were performed with full understanding.
+I treated AI suggestions as proposals that required validation rather than final solutions.
