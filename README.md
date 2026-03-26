@@ -28,10 +28,17 @@ It is being built as part of the Sportradar Coding Academy backend coding exerci
 - Create new events using a web form
 - Validate required fields and prevent duplicate home/away team selection
 - Save new events to PostgreSQL and redirect to the event detail page
+- Filter events by sport
+- Filter events by status
+- Search events by team name or competition
 
 ### Query Efficiency
 
 The event list and event detail views use eager loading for related entities such as teams, competition, stage, venue, and sport. This avoids repeated database queries when rendering templates.
+
+### Filtering
+
+The event list supports query-parameter-based filtering. Filters are applied at the database query level rather than in Python after loading all records, which keeps retrieval efficient.
 
 ## Notes
 The database design will follow a normalized relational structure and will include additional useful entities such as venues and teams/participants.

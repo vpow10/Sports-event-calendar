@@ -1,6 +1,6 @@
-from flask import Blueprint, abort, flash, redirect, render_template, url_for
-from sqlalchemy import func
-from sqlalchemy.orm import joinedload
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
+from sqlalchemy import func, or_
+from sqlalchemy.orm import aliased, joinedload
 
 from app import db
 from app.forms import EventForm
@@ -133,20 +133,59 @@ def home():
 
 @main.route("/events")
 def list_events():
-    events = (
-        Event.query.options(
-            joinedload(Event.sport),
-            joinedload(Event.competition),
-            joinedload(Event.stage),
-            joinedload(Event.venue),
-            joinedload(Event.home_team),
-            joinedload(Event.away_team),
-        )
-        .order_by(Event.event_date.asc(), Event.event_time_utc.asc())
-        .all()
+    sport_filter = request.args.get("sport", "").strip()
+    status_filter = request.args.get("status", "").strip()
+    search_query = request.args.get("q", "").strip()
+
+    home_team_alias = aliased(Team)
+    away_team_alias = aliased(Team)
+
+    query = Event.query.options(
+        joinedload(Event.sport),
+        joinedload(Event.competition),
+        joinedload(Event.stage),
+        joinedload(Event.venue),
+        joinedload(Event.home_team),
+        joinedload(Event.away_team),
     )
 
-    return render_template("events.html", events=events)
+    if sport_filter:
+        query = query.join(Event.sport).filter(
+            func.lower(Sport.name) == sport_filter.lower()
+        )
+
+    if status_filter:
+        query = query.filter(func.lower(Event.status) == status_filter.lower())
+
+    if search_query:
+        search_term = f"%{search_query.lower()}%"
+        query = (
+            query.join(Event.competition)
+            .outerjoin(home_team_alias, Event._home_team_id == home_team_alias.id)
+            .outerjoin(away_team_alias, Event._away_team_id == away_team_alias.id)
+            .filter(
+                or_(
+                    func.lower(Competition.name).like(search_term),
+                    func.lower(home_team_alias.name).like(search_term),
+                    func.lower(away_team_alias.name).like(search_term),
+                )
+            )
+        )
+
+    events = query.order_by(Event.event_date.asc(), Event.event_time_utc.asc()).all()
+
+    sports = Sport.query.order_by(Sport.name.asc()).all()
+    available_statuses = ["scheduled", "played", "cancelled", "postponed"]
+
+    return render_template(
+        "events.html",
+        events=events,
+        sports=sports,
+        available_statuses=available_statuses,
+        selected_sport=sport_filter,
+        selected_status=status_filter,
+        search_query=search_query,
+    )
 
 
 @main.route("/events/<int:event_id>")
